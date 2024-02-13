@@ -1,8 +1,10 @@
 <?php
 
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,4 +34,12 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+    Route::get('/control', function () {
+        return Inertia::render('Control');
+    })->name('control');
 });
+
+Route::post('categories', [CategoryController::class, 'store']);
+Route::post('posts', [PostController::class, 'store']);
+// Route to get the categories of states
+Route::get('/api/category-list', [PostController::class, 'getCategoryList']);
