@@ -11,5 +11,5 @@ class Post extends Model
     protected $guarded = [];
     protected $table = 'posts';
 
-    protected $fillable = ['post_name', 'post_body', 'avatar', category];
+    protected $fillable = ['post_name', 'post_body', 'avatar', 'category', 'created_by', 'private'];
 }

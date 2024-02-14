@@ -17,4 +17,13 @@ export default defineConfig({
             },
         }),
     ],
+    resolve: {
+        alias: {
+          // If your Vuex module is installed in node_modules
+          'vuex': 'vuex/dist/vuex.esm-bundler.js' // Adjust the path as necessary
+        }
+      }
 });
+
+// vite.config.js
+

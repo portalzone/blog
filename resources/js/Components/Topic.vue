@@ -1,5 +1,5 @@
 <script setup>
-import { reactive } from "vue";
+import { reactive, onMounted } from "vue";
 import { router } from "@inertiajs/vue3";
 import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
@@ -8,34 +8,50 @@ import TextArea from "@/Components/TextArea.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import { useForm } from "@inertiajs/vue3";
 import { useToast } from "vue-toastification";
+import axios from "axios";
 
 const toast = useToast();
-
 const form = useForm({
     post_name: null,
     post_body: null,
     category: null,
     avatar: null,
+    created_by: null,
 });
-function submit() {
+
+const getCurrentUser = async () => {
+    try {
+        const response = await axios.get("http://localhost:8000/api/current-user");
+        return response.data.user.id;
+    } catch (error) {
+        console.error("Error fetching current user ID:", error);
+        return null;
+    }
+};
+
+const submit = async () => {
+    form.created_by = await getCurrentUser();
+
     form.post("posts", {
         preserveScroll: true,
         onSuccess: () => {
             toast.success("Post successfully created!!!");
-            form.reset("post_name");
+            form.reset();
         },
     });
-}
-function handleInput(e) {
+};
+
+const handleInput = (e) => {
     form.clearErrors(e.target.name);
-}
+};
 </script>
+
 
 <template>
     <div>
         <div class="p-6 lg:p-2 bg-white border-b border-gray-200">
             <h1 class="mt-8 text-2xl font-medium text-gray-900">
-                Welcome to Post Management Portal
+                Post Management Portal
             </h1>
 
             <p class="mt-6 text-red-500 leading-relaxed">
@@ -49,8 +65,9 @@ function handleInput(e) {
         >
             <div class="col-span-6 sm:col-span-4">
                 <form @submit.prevent="submit">
+
                     <InputLabel for="category_name">Category name:</InputLabel>
-                    <select class="mt-1 block w-full" v-model="form.category">
+                    <select class="mt-1 block w-full rounded" v-model="form.category">
                         <option value="">Select Category</option>
                         <option
                             v-for="category in categories"
@@ -100,6 +117,8 @@ function handleInput(e) {
         </div>
     </div>
 </template>
+
+
 <script>
 import axios from "axios";
 export default {

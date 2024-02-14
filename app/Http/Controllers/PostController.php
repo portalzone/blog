@@ -40,6 +40,7 @@ class PostController extends Controller
         Post::create($request->validate([
             'post_name' => ['required', 'max:100', 'min:3'],
             'category' => ['required'],
+            'created_by' => ['required'],
             'post_body' => ['required', 'max:10000', 'min:50'],
             'avatar' => ['nullable', 'image', 'max:2048'], // Assuming 'avatar' is the field name
         ]));

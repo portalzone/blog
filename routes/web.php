@@ -37,9 +37,31 @@ Route::middleware([
     Route::get('/control', function () {
         return Inertia::render('Control');
     })->name('control');
+        // Route to get the currently authenticated user
+        Route::get('/api/current-user', function () {
+            // Retrieve the currently authenticated user
+            $user = auth()->user();
+    
+            // Check if the user is authenticated
+            if ($user) {
+                // Return the user's information
+                return response()->json(['user' => $user]);
+            } else {
+                // If user is not authenticated, return an error response
+                return response()->json(['error' => 'User not authenticated.'], 401);
+            }
+        });
 });
+
+// Route::middleware(['auth'])->group(function () {
+
+// });
 
 Route::post('categories', [CategoryController::class, 'store']);
 Route::post('posts', [PostController::class, 'store']);
 // Route to get the categories of states
 Route::get('/api/category-list', [PostController::class, 'getCategoryList']);
+
+Route::get('current-user', function () {
+    return response()->json(['user' => auth()->user()]);
+})->middleware('auth:sanctum');

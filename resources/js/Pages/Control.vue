@@ -1,7 +1,6 @@
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
-import Category from "@/Components/Category.vue";
-import Topic from "@/Components/Topic.vue";
+import AdminPage from "@/Components/AdminPage.vue";
 </script>
 <template>
     <AppLayout title="Control Panel">
@@ -14,8 +13,7 @@ import Topic from "@/Components/Topic.vue";
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                    <Category />
-                    <Topic />
+                    <AdminPage />
                 </div>
             </div>
         </div>
